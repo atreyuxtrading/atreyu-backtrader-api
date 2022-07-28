@@ -5,9 +5,11 @@ Currently `backtrader` has a built-in integration for Interactive Brokers (IB) [
 
 This project re-worked the orginal integration and created a pluggable version allowing `backtrader` to use the latest IB API.
 
+To start trading follow the steps below:
+
 1.	Open an account with IB 
-2.	Download the IB Python native API 
-3.	Download your IB client (TWS or IB Gateway) [Trader Workstation Platform](https://www.interactivebrokers.com/en/home.php)
+2.	Download the [IB Python TWS API](https://github.com/InteractiveBrokers/tws-api-public) 
+3.	Download the IB client (TWS or IB Gateway) [Trader Workstation Platform](https://www.interactivebrokers.com/en/home.php)
 4.	Test for connectivity – Check code sample below
 
 Installation
@@ -25,7 +27,7 @@ Install backtrader locally (see [Installing Backtrader](https://www.backtrader.c
 
 `pip install backtrader`
 
-Download Interactive Brokers TWS API (from [Trader Workstation API](<http://interactivebrokers.github.io/tws-api/>))
+Download Interactive Brokers TWS API (from [Trader Workstation API](https://github.com/InteractiveBrokers/tws-api-public))
 
 Select the latest copy, currently it is (twsapi_macunix.1016.01.zip) for Linux
 
@@ -36,6 +38,7 @@ The file will unzip to the directoty `IBJts`
 `cd IBJts/source/pythonclient`
 
 Run the setup.py to install the TWS API.
+
 `python setup.py install`
 
 Download a Atreyu Backtrader API, released version:
@@ -47,8 +50,6 @@ Unzip file, and install the Atreyu Backtrader API.
 `unzip v1.0.zip`
 
 `cd atreyu-backtrader-api-1.0 ; python setup.py install`
-
-Example Program to get market data from TWS. Note that you need a valid login account on TWS
 
 Check Settings of Locally Running TWS Running
 ---------------------------------------------
