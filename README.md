@@ -1,7 +1,7 @@
 Introduction
 ============
 
-Currently `backtrader` has a built-in integration for Interactive Brokers(IB) [Trader Workstation API](<http://interactivebrokers.github.io/tws-api/>), but it only works for older versions of the API. 
+Currently `backtrader` has a built-in integration for Interactive Brokers (IB) [Trader Workstation API](<http://interactivebrokers.github.io/tws-api/>), but it only works for older versions of the API. 
 
 This project re-worked the orginal integration and created a pluggable version allowing `backtrader` to use the latest IB API.
 
@@ -27,7 +27,7 @@ Install backtrader locally (see [Installing Backtrader](https://www.backtrader.c
 
 Download Interactive Brokers TWS API (from [Trader Workstation API](<http://interactivebrokers.github.io/tws-api/>))
 
-Select the latest copy, currently it is (twsapi_macunix.1016.01.zip for Linux)
+Select the latest copy, currently it is (twsapi_macunix.1016.01.zip) for Linux
 
 `unzip twsapi_macunix.1016.01.zip`
 
