@@ -51,8 +51,8 @@ Unzip file, and install the Atreyu Backtrader API.
 
 `cd atreyu-backtrader-api-1.0 ; python setup.py install`
 
-Check Settings of Locally Running TWS Running
----------------------------------------------
+Check Settings of Locally Running TWS
+-------------------------------------
 
 ![TWS Settings](images/image-01.png "TWS Settings")
 
