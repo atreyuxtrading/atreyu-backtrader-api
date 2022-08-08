@@ -81,17 +81,14 @@ cerebro.adddata(data)
 cerebro.run()
 ```
 
-Adding a TestPrinter Strategy
------------------------------
+Create A TestPrinter
+--------------------
+Note that this is created as a stratgey and will print all the bars that it receives
 
 ```python
+
 import backtrader as bt
 
-from atreyu_backtrader_api import IBData
-
-import datetime as dt
-
-# Create a TestPrinter
 class TestPrinter(bt.Strategy):
 
     def log(self, txt, dt=None):
@@ -108,7 +105,26 @@ class TestPrinter(bt.Strategy):
         self.openinterest = self.datas[0].openinterest
 
     def next(self):
-        self.log(f'Open:{self.open[0]:.2f}, High:{self.high[0]:.2f}, Low:{self.low[0]:.2f}, Close:{self.close[0]:.2f}, Volume:{self.volume[0]:.2f}, OpenInterest:{self.volume[0]:.2f}' )
+        self.log(f'Open:{self.open[0]:.2f}, \
+                   High:{self.high[0]:.2f}, \
+                   Low:{self.low[0]:.2f}, \
+                   Close:{self.close[0]:.2f}, \
+                   Volume:{self.volume[0]:.2f}, \
+                   OpenInterest:{self.volume[0]:.2f}' )
+        
+```
+
+Simple BID_ASK Historical Data
+-------------------------------
+
+```python
+
+import backtrader as bt
+
+from atreyu_backtrader_api import IBData
+from test_printer import TestPrinter
+
+import datetime as dt
 
 cerebro = bt.Cerebro()
 
@@ -118,11 +134,9 @@ data = IBData(host='127.0.0.1', port=7497, clientId=35,
                secType='STK',   # SecurityType is STOCK 
                exchange='SMART',# Trading exchange IB's SMART exchange 
                currency='USD',  # Currency of SecurityType
+               historical=True,
+               rtbar=False,
                what='BID_ASK',  # Data requested see IB documentation: https://interactivebrokers.github.io/tws-api/historical_bars.html
-               useRTH=True,
-               timeframe=bt.TimeFrame.Minutes,
-               compression=30,
-               rtbar=True
               )
 
 cerebro.adddata(data)
@@ -131,7 +145,24 @@ cerebro.adddata(data)
 cerebro.addstrategy(TestPrinter)
 
 cerebro.run()
+
 ```
+Output
+------
+```
+2021-08-09 23:59:59.999986, Open:137.24, High:144.44, Low:136.25, Close:137.55, Volume:-1.00
+2021-08-10 23:59:59.999986, Open:138.02, High:139.84, Low:125.00, Close:138.26, Volume:-1.00
+2021-08-11 23:59:59.999986, Open:137.54, High:138.95, Low:130.66, Close:137.89, Volume:-1.00
+2021-08-12 23:59:59.999986, Open:137.82, High:139.07, Low:130.00, Close:138.12, Volume:-1.00
+2021-08-13 23:59:59.999986, Open:138.23, High:139.09, Low:137.78, Close:138.52, Volume:-1.00
+2021-08-16 23:59:59.999986, Open:138.04, High:139.90, Low:125.00, Close:138.34, Volume:-1.00
+....
+2022-08-05 23:59:59.999986, Open:118.06, High:128.00, Low:111.06, Close:118.19, Volume:-1.00
+2022-08-07 20:00:00, Open:118.93, High:120.88, Low:113.00, Close:119.02, Volume:-1.00
+```
+
+Historical Data Types
+---------------------
 
 Disclaimer
 ----------
