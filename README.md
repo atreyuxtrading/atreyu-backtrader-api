@@ -134,7 +134,6 @@ data = IBData(host='127.0.0.1', port=7497, clientId=35,
                exchange='SMART',# Trading exchange IB's SMART exchange 
                currency='USD',  # Currency of SecurityType
                historical=True,
-               rtbar=False,
                what='BID_ASK',  # Update this parameter to select data type
               )
 
