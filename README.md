@@ -211,7 +211,7 @@ Output
 2017-12-30 00:00:00, Open:52.42, High:52.55, Low:52.13, Close:52.24, Volume:75590.60
 ```
 
-How is the Data Presented in the Stratgey?
+How is the Data Presented in the Strategy?
 ------------------------------------------
 The data retrieved from IB is presented in the strategy as the variable self.datas[0].
 
@@ -244,7 +244,7 @@ class TestStrategy(bt.Strategy):
                 self.buy()
 ```
 
-Using IB Historical Data to Drive a Stratgey with what=MIDPOINT
+Using IB Historical Data to Drive a Strategy with "what=MIDPOINT"
 ---------------------------------------------------------------
 
 ```python
@@ -280,6 +280,101 @@ cerebro.broker.setcash(100000.0)
 cerebro.run()
 
 print('Final Portfolio Value: %.2f' % cerebro.broker.getvalue())
+```
+
+Naming Datasources and using them in a Strategy
+-----------------------------------------------
+Datasources can be given logical datanames (i.e. based on the "what" parameter), the logical name can then be accessed using the \_name variable.
+In the strategy below the logical name is stored in the self.name0 and self.name1 variables, and can be used to identify the buy for each symbol.
+
+```python
+import backtrader as bt
+
+# Create a Stratey
+class TestStrategy(bt.Strategy):
+
+    def log(self, txt, ts=None):
+        ''' Logging function for this strategy'''
+        ts = ts or self.datas[0].datetime.datetime(0)
+        print(f'{ts}, {txt}')
+
+    def __init__(self):
+        self.close0 = self.datas[0].close
+        self.name0 = self.datas[0]._name
+
+        self.close1 = self.datas[1].close
+        self.name1 = self.datas[1]._name
+
+    def next(self):
+        # Current close dataset0
+        self.log(f'{self.name0} Close:{self.close0[0]:.2f}' )
+        if self.close0[0] < self.close0[-1]:
+             # current close less than previous close, think about buying
+             if self.close0[-1] < self.close0[-2]:
+                # previous close less than previous close, so buy
+                self.log(f"BUY {self.name0} @ {self.close0[0]:.2f}")
+                self.buy()
+
+        # Current close dataset1
+        self.log(f'{self.name1} Close:{self.close1[0]:.2f}' )
+        if self.close1[0] < self.close1[-1]:
+             # current close less than previous close, think about buying
+             if self.close1[-1] < self.close1[-2]:
+                # previous close less than previous close, so buy
+                self.log(f"BUY {self.name1} @ {self.close1[0]:.2f}")
+                self.buy()
+```
+See the name parameter being used to tag each datasource in the example below:
+
+```python
+
+import backtrader as bt
+
+from atreyu_backtrader_api import IBData
+from test_strategy import TestStrategy
+
+import datetime as dt
+
+cerebro = bt.Cerebro()
+
+goog_data = IBData(host='127.0.0.1', port=7497, clientId=35,
+               name="GOOG_TRADES",  # Data name
+               dataname='GOOG',     # Symbol name
+               secType='STK',       # SecurityType is STOCK 
+               exchange='SMART',    # Trading exchange IB's SMART exchange 
+               currency='USD',      # Currency of SecurityType
+               fromdate = dt.datetime(2016, 1, 1),
+               todate = dt.datetime(2018, 1, 1),
+               historical=True,
+               what='TRADES',
+              )
+
+cerebro.adddata(goog_data)
+
+apple_data = IBData(host='127.0.0.1', port=7497, clientId=35,
+               name="AAPL_MIDPOINT",# Data name
+               dataname='AAPL',     # Symbol name
+               secType='STK',       # SecurityType is STOCK 
+               exchange='SMART',    # Trading exchange IB's SMART exchange 
+               currency='USD',      # Currency of SecurityType
+               fromdate = dt.datetime(2016, 1, 1),
+               todate = dt.datetime(2018, 1, 1),
+               historical=True,
+               what='MIDPOINT',
+              )
+
+cerebro.adddata(apple_data)
+
+# Add the test strateggy
+cerebro.addstrategy(TestStrategy)
+
+# Set our desired cash start
+cerebro.broker.setcash(100000.0)
+
+cerebro.run()
+
+print('Final Portfolio Value: %.2f' % cerebro.broker.getvalue())
+
 ```
 
 Disclaimer
