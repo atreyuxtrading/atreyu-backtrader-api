@@ -211,11 +211,14 @@ Output
 2017-12-30 00:00:00, Open:52.42, High:52.55, Low:52.13, Close:52.24, Volume:75590.60
 ```
 
-How is the Fetched Data Presented in the Stratgey?
---------------------------------------------------
+How is the Data Presented in the Stratgey?
+------------------------------------------
 The data retrieved from IB is presented in the strategy as the variable self.datas[0].
 
 The latest close price is available at index 0, and progressively earlier prices are stored using a negative index. (See diagram below)
+
+![Data Layout](images/image-03.png "Data Layout")
+
 ```python
 import backtrader as bt
 
