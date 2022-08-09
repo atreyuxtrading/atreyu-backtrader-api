@@ -64,15 +64,14 @@ import backtrader as bt
 from atreyu_backtrader_api import IBData
 
 cerebro = bt.Cerebro()
-# Check IB documentation: https://interactivebrokers.github.io/tws-api/historical_bars.html
-# for the 'what' parameter
+
 data = IBData(host='127.0.0.1', port=7497, clientId=35,
                name="GOOG",     # Data name
                dataname='GOOG', # Symbol name
                secType='STK',   # SecurityType is STOCK 
                exchange='SMART',# Trading exchange IB's SMART exchange 
                currency='USD',  # Currency of SecurityType
-               what='BID_ASK',  # Get data fields (see note above)
+               what='BID_ASK',  # Get data fields (see note below)
                rtbar=True,      # Request Realtime bars
                _debug=True      # Set to True to print out debug messagess from IB TWS API
               )
@@ -136,12 +135,12 @@ data = IBData(host='127.0.0.1', port=7497, clientId=35,
                currency='USD',  # Currency of SecurityType
                historical=True,
                rtbar=False,
-               what='BID_ASK',  # Data requested see IB documentation: https://interactivebrokers.github.io/tws-api/historical_bars.html
+               what='BID_ASK',  # Update this parameter to select data type
               )
 
 cerebro.adddata(data)
 
-# Add the printer as a strateggy
+# Add the printer as a strategy
 cerebro.addstrategy(TestPrinter)
 
 cerebro.run()
@@ -161,8 +160,10 @@ Output
 2022-08-07 20:00:00, Open:118.93, High:120.88, Low:113.00, Close:119.02, Volume:-1.00
 ```
 
-Historical Data Types
----------------------
+Select Historical Data Types Using "what=" Parameter
+-----------------------------------------------------
+Historical data is returned in the form of candlesticks, and accessed using the “what=” parameter when requesting data. (see [Interactive Brokers Data Types](https://interactivebrokers.github.io/tws-api/historical_bars.html))
+![What Data Types](images/image-02.png "What Data Types")
 
 Disclaimer
 ----------
