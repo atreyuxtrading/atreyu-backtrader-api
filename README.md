@@ -211,6 +211,62 @@ Output
 2017-12-30 00:00:00, Open:52.42, High:52.55, Low:52.13, Close:52.24, Volume:75590.60
 ```
 
+Using IB Historical Data to Drive a Stratgey with what=MIDPOINT
+---------------------------------------------------------------
+
+```python
+import backtrader as bt
+
+from atreyu_backtrader_api import IBData
+
+import datetime as dt
+
+# Create a Stratey
+class TestStrategy(bt.Strategy):
+
+    def log(self, txt, ts=None):
+        ''' Logging function for this strategy'''
+        ts = ts or self.datas[0].datetime.datetime(0)
+        print(f'{ts}, {txt}')
+
+    def __init__(self):
+        self.close = self.datas[0].close
+
+    def next(self):
+        self.log(f'Close:{self.close[0]:.2f}' )
+        if self.close[0] < self.close[-1]:
+             # current close less than previous close, so buy
+             if self.close[-1] < self.close[-2]:
+                self.log('BUY CREATE, %.2f' % self.close[0])
+                self.buy()
+
+cerebro = bt.Cerebro()
+
+data = IBData(host='127.0.0.1', port=7497, clientId=35,
+               name="GOOG",     # Data name
+               dataname='GOOG', # Symbol name
+               secType='STK',   # SecurityType is STOCK 
+               exchange='SMART',# Trading exchange IB's SMART exchange 
+               currency='USD',  # Currency of SecurityType
+               fromdate = dt.datetime(2016, 1, 1),
+               todate = dt.datetime(2018, 1, 1),
+               historical=True,
+               what='MIDPOINT',
+              )
+
+cerebro.adddata(data)
+
+# Add the test strateggy
+cerebro.addstrategy(TestStrategy)
+
+# Set our desired cash start
+cerebro.broker.setcash(100000.0)
+
+cerebro.run()
+
+print('Final Portfolio Value: %.2f' % cerebro.broker.getvalue())
+```
+
 Disclaimer
 ----------
 The software is provided on the conditions of the simplified BSD license.
