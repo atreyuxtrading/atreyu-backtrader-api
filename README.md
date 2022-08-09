@@ -211,15 +211,13 @@ Output
 2017-12-30 00:00:00, Open:52.42, High:52.55, Low:52.13, Close:52.24, Volume:75590.60
 ```
 
-Using IB Historical Data to Drive a Stratgey with what=MIDPOINT
----------------------------------------------------------------
+How is the Fetched Data Presented in the Stratgey?
+--------------------------------------------------
+The data retrieved from IB is presented in the strategy as the variable self.datas[0].
 
+The latest close price is available at index 0, and progressively earlier prices are stored using a negative index. (See diagram below)
 ```python
 import backtrader as bt
-
-from atreyu_backtrader_api import IBData
-
-import datetime as dt
 
 # Create a Stratey
 class TestStrategy(bt.Strategy):
@@ -233,12 +231,26 @@ class TestStrategy(bt.Strategy):
         self.close = self.datas[0].close
 
     def next(self):
+        # Current close
         self.log(f'Close:{self.close[0]:.2f}' )
         if self.close[0] < self.close[-1]:
-             # current close less than previous close, so buy
+             # current close less than previous close, think about buying
              if self.close[-1] < self.close[-2]:
+                # previous close less than previous close, so buy
                 self.log('BUY CREATE, %.2f' % self.close[0])
                 self.buy()
+```
+
+Using IB Historical Data to Drive a Stratgey with what=MIDPOINT
+---------------------------------------------------------------
+
+```python
+import backtrader as bt
+
+from atreyu_backtrader_api import IBData
+from test_strategy import TestStrategy
+
+import datetime as dt
 
 cerebro = bt.Cerebro()
 
