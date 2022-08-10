@@ -377,6 +377,22 @@ print('Final Portfolio Value: %.2f' % cerebro.broker.getvalue())
 
 ```
 
+Output
+------
+
+```
+2016-01-05 00:00:00, AAPL_MIDPOINT Close:26.43
+2016-01-05 00:00:00, BUY AAPL_MIDPOINT @ 26.43
+2016-01-05 00:00:00, GOOG_TRADES Close:37.10
+2016-01-05 00:00:00, BUY GOOG_TRADES @ 37.10
+...
+2017-12-29 00:00:00, AAPL_MIDPOINT Close:42.71
+2017-12-30 00:00:00, GOOG_TRADES Close:52.24
+2017-12-30 00:00:00, BUY GOOG_TRADES @ 52.24
+2017-12-30 00:00:00, AAPL_MIDPOINT Close:42.27
+Final Portfolio Value: 102168.92
+```
+
 Disclaimer
 ----------
 The software is provided on the conditions of the simplified BSD license.
