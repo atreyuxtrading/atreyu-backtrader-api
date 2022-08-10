@@ -191,7 +191,7 @@ data = IBData(host='127.0.0.1', port=7497, clientId=35,
 
 cerebro.adddata(data)
 
-# Add the printer as a strateggy
+# Add the printer as a strategy
 cerebro.addstrategy(TestPrinter)
 
 cerebro.run()
@@ -271,7 +271,7 @@ data = IBData(host='127.0.0.1', port=7497, clientId=35,
 
 cerebro.adddata(data)
 
-# Add the test strateggy
+# Add the test strategy
 cerebro.addstrategy(TestStrategy)
 
 # Set our desired cash start
@@ -365,7 +365,7 @@ apple_data = IBData(host='127.0.0.1', port=7497, clientId=35,
 
 cerebro.adddata(apple_data)
 
-# Add the test strateggy
+# Add the test strategy
 cerebro.addstrategy(TestStrategy)
 
 # Set our desired cash start
@@ -393,11 +393,12 @@ Output
 Final Portfolio Value: 102168.92
 ```
 
-Fetching Real-time Bars from IB
+5-Second Real-time Bars from IB
 -------------------------------
 Real-time bars represent a price performance for a specific period. These periods could be as long as a day or as short as a second, depending on the purpose for which the bar is to be used. Daily bars are usually the most popular for analysis whereas shorter duration bars can be used for trading.
 
-In the case of IB the TWS API can be used to fetch 5-second duration bar. In this case we are switching off the backfill of data from initial start to reconnect in case of connection disruption.
+In the case of IB the TWS API can be used to fetch 5-second duration bar. 
+The example below creates an active subscription that will return a single bar in real time every five seconds that has the OHLC values over that period. Additionally we are switching off the backfill of data from initial start to reconnect in case of connection disruption.
 
 ```python
 
@@ -424,11 +425,20 @@ data = IBData(host='127.0.0.1', port=7497, clientId=35,
 
 cerebro.adddata(data)
 
-# Add the test strateggy
+# Add the test strategy
 cerebro.addstrategy(TestPrinter)
 
 cerebro.run()
 
+```
+Output
+------
+```
+2022-08-10 16:39:55, Symbol: AAPL Open:169.06, High:169.06, Low:169.06, Close:169.06, Volume:0.00
+2022-08-10 16:40:00, Symbol: AAPL Open:169.06, High:169.06, Low:169.06, Close:169.06, Volume:0.00
+2022-08-10 16:40:05, Symbol: AAPL Open:169.06, High:169.06, Low:169.06, Close:169.06, Volume:0.00
+2022-08-10 16:40:10, Symbol: AAPL Open:169.06, High:169.06, Low:169.06, Close:169.06, Volume:0.00
+2022-08-10 16:40:15, Symbol: AAPL Open:169.06, High:169.06, Low:169.06, Close:169.06, Volume:0.00
 ```
 
 Disclaimer
