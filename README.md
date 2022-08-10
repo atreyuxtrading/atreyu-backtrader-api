@@ -393,6 +393,44 @@ Output
 Final Portfolio Value: 102168.92
 ```
 
+Fetching Real-time Bars from IB
+-------------------------------
+Real-time bars represent a price performance for a specific period. These periods could be as long as a day or as short as a second, depending on the purpose for which the bar is to be used. Daily bars are usually the most popular for analysis whereas shorter duration bars can be used for trading.
+
+In the case of IB the TWS API can be used to fetch 5-second duration bar. In this case we are switching off the backfill of data from initial start to reconnect in case of connection disruption.
+
+```python
+
+import backtrader as bt
+
+from atreyu_backtrader_api import IBData
+from test_printer import TestPrinter
+
+import datetime as dt
+from datetime import datetime, date, time
+
+cerebro = bt.Cerebro()
+
+data = IBData(host='127.0.0.1', port=7497, clientId=35,
+               name="AAPL",  # Data name
+               dataname='AAPL',     # Symbol name
+               secType='STK',       # SecurityType is STOCK 
+               exchange='SMART',    # Trading exchange IB's SMART exchange 
+               currency='USD',      # Currency of SecurityType
+               backfill_start=False,
+               backfill=False,
+               rtbar=True,
+              )
+
+cerebro.adddata(data)
+
+# Add the test strateggy
+cerebro.addstrategy(TestPrinter)
+
+cerebro.run()
+
+```
+
 Disclaimer
 ----------
 The software is provided on the conditions of the simplified BSD license.
