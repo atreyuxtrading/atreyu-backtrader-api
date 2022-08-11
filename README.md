@@ -492,6 +492,43 @@ Ouput
 2022-08-11 16:36:11.411161, Symbol: AAPL Open:169.71, High:169.71, Low:169.71, Close:169.71, Volume:2900.0
 ```
 
+Real-time Tick by Tick Data
+---------------------------
+In addition to the aggregated tick snapshots, IB also has true tick-by-tick data, but it comes with some limitations. Tick-by-tick data corresponds to the data shown in the TWS Time & Sales. The maximum number of simultaneous tick-by-tick subscriptions allowed for a user is determined by the limitations below.
+
+Limitations - Additional symbol request can be purchased through a quote booster pack, each quote booster pack provides a 100 market data lines. There is a limit of 10 quote boosters packs per account and rest of the market data lines are allocated using equity and commissions.
+
+```python
+import backtrader as bt
+
+from atreyu_backtrader_api import IBData
+from test_printer import TestPrinter
+
+import datetime as dt
+from datetime import datetime, date, time
+
+cerebro = bt.Cerebro()
+
+data = IBData(host='127.0.0.1', port=7497, clientId=35,
+               name="AAPL",  # Data name
+               dataname='AAPL',     # Symbol name
+               secType='STK',       # SecurityType is STOCK 
+               exchange='SMART',    # Trading exchange IB's SMART exchange 
+               currency='USD',      # Currency of SecurityType
+               timeframe=bt.TimeFrame.Ticks,
+               backfill_start=False,
+               backfill=False,
+               rtbar=False
+              )
+
+cerebro.adddata(data)
+
+# Add the test strategy
+cerebro.addstrategy(TestPrinter)
+
+cerebro.run()
+```
+
 Disclaimer
 ----------
 The software is provided on the conditions of the simplified BSD license.
