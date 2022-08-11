@@ -480,6 +480,7 @@ cerebro.addstrategy(TestPrinter)
 cerebro.run()
 ```
 Ouput
+-----
 ```
 2022-08-11 16:36:11.410065, Symbol: AAPL Open:169.70, High:169.70, Low:169.70, Close:169.70, Volume:2200.0
 2022-08-11 16:36:11.410105, Symbol: AAPL Open:169.70, High:169.70, Low:169.70, Close:169.70, Volume:100.0
