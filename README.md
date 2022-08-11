@@ -420,7 +420,8 @@ data = IBData(host='127.0.0.1', port=7497, clientId=35,
                currency='USD',      # Currency of SecurityType
                backfill_start=False,
                backfill=False,
-               rtbar=True,
+               what='TRADES', # TRADES or MIDPOINT
+               rtbar=True
               )
 
 cerebro.adddata(data)
@@ -430,15 +431,15 @@ cerebro.addstrategy(TestPrinter)
 
 cerebro.run()
 
+
 ```
 Output
 ------
 ```
-2022-08-10 16:39:55, Symbol: AAPL Open:169.06, High:169.06, Low:169.06, Close:169.06, Volume:0.00
-2022-08-10 16:40:00, Symbol: AAPL Open:169.06, High:169.06, Low:169.06, Close:169.06, Volume:0.00
-2022-08-10 16:40:05, Symbol: AAPL Open:169.06, High:169.06, Low:169.06, Close:169.06, Volume:0.00
-2022-08-10 16:40:10, Symbol: AAPL Open:169.06, High:169.06, Low:169.06, Close:169.06, Volume:0.00
-2022-08-10 16:40:15, Symbol: AAPL Open:169.06, High:169.06, Low:169.06, Close:169.06, Volume:0.00
+2022-08-11 15:22:20, Symbol: AAPL Open:169.29, High:169.29, Low:169.28, Close:169.29, Volume:101.13
+2022-08-11 15:22:25, Symbol: AAPL Open:169.29, High:169.29, Low:169.25, Close:169.26, Volume:79.5
+2022-08-11 15:22:30, Symbol: AAPL Open:169.27, High:169.30, Low:169.23, Close:169.23, Volume:57.5
+2022-08-11 15:22:35, Symbol: AAPL Open:169.23, High:169.30, Low:169.22, Close:169.27, Volume:89.72
 ```
 
 Disclaimer
