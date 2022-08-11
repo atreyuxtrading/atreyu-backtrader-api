@@ -535,7 +535,7 @@ cerebro.run()
 
 Output
 ------
-```python
+```
 2022-08-11 17:29:22, Symbol: AAPL Open:nan, High:nan, Low:nan, Close:169.41, Volume:260.0
 2022-08-11 17:29:22, Symbol: AAPL Open:nan, High:nan, Low:nan, Close:169.41, Volume:100.0
 2022-08-11 17:29:22, Symbol: AAPL Open:nan, High:nan, Low:nan, Close:169.41, Volume:100.0
