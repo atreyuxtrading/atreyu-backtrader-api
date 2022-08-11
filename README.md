@@ -637,8 +637,8 @@ class TestStrategy(bt.Strategy):
                 self.log(f'SELL CREATED Size: {self.order.size} @ MKT')
 ```
 
-Back Test Strategy Using IB Historical Data
--------------------------------------------
+Back Testing The Strategy Using IB Historical Data
+--------------------------------------------------
 
 ```python
 import backtrader as bt
