@@ -498,6 +498,11 @@ In addition to the aggregated tick snapshots, IB also has true tick-by-tick data
 
 Limitations - Additional symbol request can be purchased through a quote booster pack, each quote booster pack provides a 100 market data lines. There is a limit of 10 quote boosters packs per account and rest of the market data lines are allocated using equity and commissions.
 
+![Lines Requests](images/image-05.png "Lines Requests")
+
+The “what=” must be set to the following BID_ASK (BidAsk), TRADES (Last), TRADES_ALL (AllLast), MIDPOINT (MidPoint), the default is TRADES if “what” is not set. TRADES_ALL has additional trade types such as combos, derivatives, and average price trades that are not included in TRADES.
+Note in the example below “timeframe=bt.TimeFrame.Ticks” to select the tick-by-tick IB function.
+
 ```python
 import backtrader as bt
 
@@ -516,8 +521,7 @@ data = IBData(host='127.0.0.1', port=7497, clientId=35,
                exchange='SMART',    # Trading exchange IB's SMART exchange 
                currency='USD',      # Currency of SecurityType
                timeframe=bt.TimeFrame.Ticks,
-               backfill_start=False,
-               backfill=False,
+               what='BID_ASK',      # TRADES, TRADES_ALL, MID_POINT
                rtbar=False
               )
 
@@ -527,6 +531,18 @@ cerebro.adddata(data)
 cerebro.addstrategy(TestPrinter)
 
 cerebro.run()
+```
+
+Output
+------
+```python
+2022-08-11 17:29:22, Symbol: AAPL Open:nan, High:nan, Low:nan, Close:169.41, Volume:260.0
+2022-08-11 17:29:22, Symbol: AAPL Open:nan, High:nan, Low:nan, Close:169.41, Volume:100.0
+2022-08-11 17:29:22, Symbol: AAPL Open:nan, High:nan, Low:nan, Close:169.41, Volume:100.0
+...
+2022-08-11 17:29:22, Symbol: AAPL Open:nan, High:nan, Low:nan, Close:169.41, Volume:100.0
+2022-08-11 17:29:22, Symbol: AAPL Open:nan, High:nan, Low:nan, Close:169.41, Volume:100.0
+2022-08-11 17:29:22, Symbol: AAPL Open:nan, High:nan, Low:nan, Close:169.41, Volume:100.0
 ```
 
 Disclaimer
