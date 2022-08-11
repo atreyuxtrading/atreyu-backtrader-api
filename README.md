@@ -442,6 +442,11 @@ Output
 2022-08-11 15:22:35, Symbol: AAPL Open:169.23, High:169.30, Low:169.22, Close:169.27, Volume:89.72
 ```
 
+Top Of Book Market Data (Level I)
+---------------------------------
+Using the TWS API, real time market data can also be requested for trading and analysis. This data is not tick-by-tick but consists of aggregated snapshots taken at intra-second intervals which differ depending on the type of instrument:
+
+
 Disclaimer
 ----------
 The software is provided on the conditions of the simplified BSD license.
