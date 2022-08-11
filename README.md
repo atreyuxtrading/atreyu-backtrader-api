@@ -446,6 +446,50 @@ Top Of Book Market Data (Level I)
 ---------------------------------
 Using the TWS API, real time market data can also be requested for trading and analysis. This data is not tick-by-tick but consists of aggregated snapshots taken at intra-second intervals which differ depending on the type of instrument:
 
+![Product Frequency](images/image-04.png "Product Frequency")
+
+We select non-bar data by setting rtbar=False, note that the data will still be presented in the OHLCV format for use in the strategy.
+
+```python
+import backtrader as bt
+
+from atreyu_backtrader_api import IBData
+from test_printer import TestPrinter
+
+import datetime as dt
+from datetime import datetime, date, time
+
+cerebro = bt.Cerebro()
+
+data = IBData(host='127.0.0.1', port=7497, clientId=35,
+               name="AAPL",  # Data name
+               dataname='AAPL',     # Symbol name
+               secType='STK',       # SecurityType is STOCK 
+               exchange='SMART',    # Trading exchange IB's SMART exchange 
+               currency='USD',      # Currency of SecurityType
+               backfill_start=False,
+               backfill=False,
+               rtbar=False
+              )
+
+cerebro.adddata(data)
+
+# Add the test strategy
+cerebro.addstrategy(TestPrinter)
+
+cerebro.run()
+```
+Ouput
+```
+2022-08-11 16:36:11.410065, Symbol: AAPL Open:169.70, High:169.70, Low:169.70, Close:169.70, Volume:2200.0
+2022-08-11 16:36:11.410105, Symbol: AAPL Open:169.70, High:169.70, Low:169.70, Close:169.70, Volume:100.0
+2022-08-11 16:36:11.410156, Symbol: AAPL Open:169.70, High:169.70, Low:169.70, Close:169.70, Volume:100.0
+2022-08-11 16:36:11.410196, Symbol: AAPL Open:169.70, High:169.70, Low:169.70, Close:169.70, Volume:253852.0
+2022-08-11 16:36:11.411061, Symbol: AAPL Open:169.69, High:169.69, Low:169.69, Close:169.69, Volume:253852.0
+2022-08-11 16:36:11.411081, Symbol: AAPL Open:169.69, High:169.69, Low:169.69, Close:169.69, Volume:1900.0
+2022-08-11 16:36:11.411141, Symbol: AAPL Open:169.71, High:169.71, Low:169.71, Close:169.71, Volume:1900.0
+2022-08-11 16:36:11.411161, Symbol: AAPL Open:169.71, High:169.71, Low:169.71, Close:169.71, Volume:2900.0
+```
 
 Disclaimer
 ----------
