@@ -703,6 +703,13 @@ Output
 Final Portfolio Value: 100409.00
 ```
 
+Paper Trading on IB
+-------------------
+Once a strategy has been back tested for basic operation it should be paper traded i.e. where simulated trades are generated and marked using live data to gain confidence in your overall trading strategy and goal.
+
+Be careful to login to TWS using the Paper Trading option (see arrow):
+
+
 Disclaimer
 ----------
 The software is provided on the conditions of the simplified BSD license.
