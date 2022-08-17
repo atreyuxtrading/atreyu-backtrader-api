@@ -661,6 +661,7 @@ class IBStore(with_metaclass(MetaSingleton, object)):
         self._lock_accupd = threading.Lock()  # sync account updates
         self._lock_pos = threading.Lock()  # sync account updates
         self._lock_notif = threading.Lock()  # sync access to notif queue
+        self._updacclock = threading.Lock()  # sync account updates
 
         # Account list received
         self._event_managed_accounts = threading.Event()
@@ -1036,6 +1037,7 @@ class IBStore(with_metaclass(MetaSingleton, object)):
         # Request time to avoid synchronization issues
         self.reqCurrentTime()
 
+    @logibmsg
     def reqCurrentTime(self):
         self.conn.reqCurrentTime()
     
@@ -1141,6 +1143,7 @@ class IBStore(with_metaclass(MetaSingleton, object)):
         '''Receive answer and pass it to the queue'''
         self.qs[reqId].put(contractDetails)
 
+    @logibmsg
     def reqHistoricalDataEx(self, contract, enddate, begindate,
                             timeframe, compression,
                             what=None, useRTH=False, tz='', sessionend=None,
@@ -1386,7 +1389,8 @@ class IBStore(with_metaclass(MetaSingleton, object)):
             logger.warn(f"Cancel data queue for {q}")
             self.cancelQueue(q, True)
 
-    def reqRealTimeBars(self, contract, useRTH=False, duration=5):
+    @logibmsg
+    def reqRealTimeBars(self, contract, useRTH=False, duration=5, what = None):
         '''Creates a request for (5 seconds) Real Time Bars
 
         Params:
@@ -1400,12 +1404,15 @@ class IBStore(with_metaclass(MetaSingleton, object)):
         # get a ticker/queue for identification/data delivery
         tickerId, q = self.getTickerQueue()
 
+        what = what or 'TRADES'
+
         # 20150929 - Only 5 secs supported for duration
         self.conn.reqRealTimeBars(
             tickerId,
             contract,
             duration,
-            bytes('TRADES'),
+            # bytes('TRADES'),
+            bytes(what),
             useRTH,
             [])
 
@@ -1464,9 +1471,7 @@ class IBStore(with_metaclass(MetaSingleton, object)):
         elif what == 'MIDPOINT':
             what = 'MidPoint'
         else:
-            err = (f"Unknown Price Request: '{what}'")
-            self.notifs.put((err, (), {}))
-            return self.getTickerQueue(start=True)
+            what = 'Last'
 
         tickerId, q = self.getTickerQueue()
         self.conn.reqTickByTickData(tickerId, contract, what, 0, ignoreSize)
@@ -2046,7 +2051,7 @@ class IBStore(with_metaclass(MetaSingleton, object)):
         set the account codes
         '''
         if account is None:
-            # self._event_managed_accounts.wait()
+            self._event_managed_accounts.wait()
             account = self.managed_accounts[0]
 
         self.conn.reqAccountUpdates(subscribe, bytes(account))
@@ -2102,6 +2107,7 @@ class IBStore(with_metaclass(MetaSingleton, object)):
 
             return position
 
+    @logibmsg
     def updateAccountValue(self, key, value, currency, accountName):
         # Lock access to the dicts where values are updated. This happens in a
         # sub-thread and could kick it at anytime
@@ -2119,6 +2125,7 @@ class IBStore(with_metaclass(MetaSingleton, object)):
             elif key == 'CashBalance' and currency == 'BASE':
                 self.acc_cash[accountName] = value
     
+    @logibmsg
     def get_acc_values(self, account=None):
         '''Returns all account value infos sent by TWS during regular updates
         Waits for at least 1 successful download
@@ -2156,6 +2163,7 @@ class IBStore(with_metaclass(MetaSingleton, object)):
 
             return self.acc_upds.copy()
 
+    @logibmsg
     def get_acc_value(self, account=None):
         '''Returns the net liquidation value sent by TWS during regular updates
         Waits for at least 1 successful download
@@ -2187,6 +2195,7 @@ class IBStore(with_metaclass(MetaSingleton, object)):
 
         return float()
 
+    @logibmsg
     def get_acc_cash(self, account=None):
         '''Returns the total cash value sent by TWS during regular updates
         Waits for at least 1 successful download
