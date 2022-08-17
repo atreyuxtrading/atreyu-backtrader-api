@@ -708,7 +708,72 @@ Paper Trading on IB
 Once a strategy has been back tested for basic operation it should be paper traded i.e. where simulated trades are generated and marked using live data to gain confidence in your overall trading strategy and goal.
 
 Be careful to login to TWS using the Paper Trading option (see arrow):
+![Paper Trading](images/image-06.png "Paper Trading")
 
+In addition to selecting “Paper Trading” the execution of the strategy also needs to be changed to use IB as the broker to place orders and update positions.
+
+```python
+import backtrader as bt
+
+from atreyu_backtrader_api import IBData
+from atreyu_backtrader_api import IBStore
+
+from test_strategy import TestStrategy
+
+import datetime as dt
+from datetime import datetime, date, time
+
+cerebro = bt.Cerebro()
+
+ibstore = IBStore(host='127.0.0.1', 
+                  port=7497, 
+                  clientId=35)
+
+data = ibstore.getdata(name="AAPL",         # Data name
+                       dataname='AAPL',     # Symbol name
+                       secType='STK',       # SecurityType is STOCK
+                       exchange='SMART',    # Trading exchange IB's SMART exchange 
+                       currency='USD'      # Currency of SecurityType
+                       )
+
+cerebro.adddata(data)
+
+broker = ibstore.getbroker()
+
+# Set the broker
+cerebro.setbroker(broker)
+
+# Add the test strategy
+cerebro.addstrategy(TestStrategy)
+
+# Add a FixedSize sizer according to the stake
+cerebro.addsizer(bt.sizers.FixedSize, stake=10)
+
+cerebro.run()
+```
+
+Output
+------
+```
+...
+2022-08-17 19:06:33.352691, Close, 174.84
+2022-08-17 19:06:33.352741, Close, 174.84
+2022-08-17 19:06:33.352781, Close, 174.84
+2022-08-17 19:06:33.601432, SELL EXECUTED, Price: 174.83, Cost: 1749.40, Comm: 1.04
+2022-08-17 19:06:33.601432, OPERATION PROFIT, GROSS: -0.10, NET: -2.14
+2022-08-17 19:06:33.601432, Close, 174.83
+2022-08-17 19:06:33.601462, Close, 174.83
+2022-08-17 19:06:33.601522, Close, 174.85
+2022-08-17 19:06:33.601522, BUY CREATE  @MKT: 174.85
+2022-08-17 19:06:33.601522, BUY CREATED Size: 10 @ MKT
+2022-08-17 19:06:33.601533, Close, 174.85
+...
+```
+
+Once the strategy is initiated the orders start appearing in TWS
+----------------------------------------------------------------
+
+![Main Trading](images/image-07.png "Main Trading")
 
 Disclaimer
 ----------
