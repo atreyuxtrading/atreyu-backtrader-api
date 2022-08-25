@@ -810,6 +810,28 @@ logger = setup_custom_logger(global_name = 'root',
                               console     = True)               # Echo the log line to the terminal
 
 ```
+The logging into the file can be controlled by getting the sub-loggers from the module and source file that is of interest
+```python
+LOGGING_DEBUG = False
+logger = setup_custom_logger(global_name = 'root',
+                              debug_level = logging.DEBUG if LOGGING_DEBUG else logging.INFO,
+                              filename    = "sma_strategy.log", # Set the log file name
+                              logdirname  = './logs',           # and the directory for the logs
+                              console     = True)               # Echo the log line to the terminal
+
+# Log configuration for Atreyu Back Trader API module
+logging.getLogger('atreyu_backtrader_api').setLevel(logging.ERROR)
+# logging.getLogger('atreyu_backtrader_api.ibbroker').setLevel(logging.INFO)
+# logging.getLogger('atreyu_backtrader_api.ibdata').setLevel(logging.INFO)
+# logging.getLogger('atreyu_backtrader_api.ibstore').setLevel(logging.INFO)
+
+# Log configuration for IB API module
+logging.getLogger('ibapi').setLevel(logging.ERROR)
+# logging.getLogger('ibapi.decoder').setLevel(logging.ERROR)
+# logging.getLogger('ibapi.utils').setLevel(logging.ERROR)
+# logging.getLogger('ibapi.client').setLevel(logging.ERROR)
+#logging.getLogger('ibapi.decoder').setLevel(logging.DEBUG)
+```
 
 Disclaimer
 ----------
