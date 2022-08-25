@@ -787,6 +787,30 @@ The simplest and most effective function is having accurate logging that records
 
 ![TWS Ports](images/image-08.png "TWS Port")
 
+Setting Up A Log File
+---------------------
+There is a example custom logger supplied in the atreyu_backtrader_api module, and can be referenced in the code as follows:
+
+```python
+import logging
+from atreyu_backtrader_api.custom_logger import setup_custom_logger
+```
+The logger has the following properties:
+-	It can write a named log file into a named directory thereby keeping all the logs together.
+-	It has log rotation, e.g. it does not overwrite logs on repeated restarts but backs each log keeping the specified logfile as the latest log.
+-	Each log line can be echoed to the terminal as well as written to the logfile  
+
+The logger can be setup as follows:
+```python
+LOGGING_DEBUG = False
+logger = setup_custom_logger(global_name = 'root',
+                              debug_level = logging.DEBUG if LOGGING_DEBUG else logging.INFO,
+                              filename    = "sma_strategy.log", # Set the log file name
+                              logdirname  = './logs',           # and the directory for the logs
+                              console     = True)               # Echo the log line to the terminal
+
+```
+
 Disclaimer
 ----------
 The software is provided on the conditions of the simplified BSD license.
