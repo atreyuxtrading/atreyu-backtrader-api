@@ -775,6 +775,16 @@ Once the strategy is initiated the orders start appearing in TWS
 
 ![Main Trading](images/image-07.png "Main Trading")
 
+From Paper Trading To Real Trading – Monitoring, Debug and Go Live!
+-------------------------------------------------------------------
+Paper trading can help to validate the efficacy of a strategy, so it is prudent to continue paper trading until a stable performance and profitability profile has been achieved.
+
+Sometimes successful paper trading strategies may not translate to the same performance in real trading. This can be for a myriad of reasons from external factors (market impact, price slippage, market microstructure etc.) to simple programming issues.
+
+To help isolate and identify these issues it is important to have a robust monitoring and debugging facilities built into the trading process.
+
+The simplest and most effective function is having accurate logging that records not only the trades but identifies the assets, opening and closing prices and trigger conditions and parameters pertinent to the strategy. Additionally the Backtrader and TWS API also has debugging built and can be accessed by setting the appropriate configuration parameters.
+
 Disclaimer
 ----------
 The software is provided on the conditions of the simplified BSD license.
