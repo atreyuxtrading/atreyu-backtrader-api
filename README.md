@@ -859,6 +859,9 @@ logging.getLogger('ibapi').setLevel(logging.ERROR)
 Enable Logging in Backtrader
 To enable logging in the Backtrader framework the _debug = True variable can be passed when setting up the IBStore and IBData classes.
 ```python
+PAPER_TRADING_PORT = 7497
+LIVE_TRADING_PORT = 7496
+
 cerebro = bt.Cerebro()
 HOST = '127.0.0.1'
 PORT = PAPER_TRADING_PORT
