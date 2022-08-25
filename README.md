@@ -886,6 +886,57 @@ broker = ibstore.getbroker()
 # Set the broker
 cerebro.setbroker(broker)
 ```
+Output
+------
+```
+Calling updateAccountTime('20:10')
+Calling tickSize(16777217, 8, Decimal('361198'))
+Calling tickString(16777217, 45, '1661454621')
+Calling tickString(16777217, 84, 'Z')
+Calling tickPrice(16777217, 4, 169.19, 4361192208: CanAutoExecute: 0, PastLimit: 0, PreOpen: 0)
+Calling tickSize(16777217, 5, Decimal('100'))
+Calling tickSize(16777217, 5, Decimal('100'))
+Calling tickPrice(16777217, 1, 169.18, 4361192208: CanAutoExecute: 1, PastLimit: 0, PreOpen: 0)
+Calling tickSize(16777217, 0, Decimal('1600'))
+Calling get_acc_cash()
+Calling tickPrice(16777217, 2, 169.19, 4361192448: CanAutoExecute: 1, PastLimit: 0, PreOpen: 0)
+Calling get_acc_value()
+Calling tickSize(16777217, 3, Decimal('1500'))
+Calling get_acc_value()
+Calling tickSize(16777217, 0, Decimal('1600'))
+Calling tickSize(16777217, 3, Decimal('1500'))
+Calling tickString(16777217, 32, 'PQXZUH')
+Calling tickString(16777217, 33, 'KPQZNUH')
+```
+
+```python
+PAPER_TRADING_PORT = 7497
+LIVE_TRADING_PORT = 7496
+
+cerebro = bt.Cerebro()
+HOST = '127.0.0.1'
+PORT = LIVE_TRADING_PORT
+logger.info(f"Starting host: {HOST} port: {PORT}")
+ibstore = IBStore(host=HOST, 
+                  port=PORT, 
+                  clientId=35,
+                  _debug = True)
+
+data = ibstore.getdata(name="AAPL",         # Data name
+                       dataname='AAPL',     # Symbol name
+                       secType='STK',       # SecurityType is STOCK
+                       exchange='SMART',    # Trading exchange IB's SMART exchange 
+                       currency='USD',       # Currency of SecurityType
+                       _debug = True
+                       )
+
+cerebro.adddata(data)
+
+broker = ibstore.getbroker()
+
+# Set the broker
+cerebro.setbroker(broker)
+```
 
 Disclaimer
 ----------
