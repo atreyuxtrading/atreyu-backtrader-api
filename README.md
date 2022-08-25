@@ -785,6 +785,8 @@ To help isolate and identify these issues it is important to have a robust monit
 
 The simplest and most effective function is having accurate logging that records not only the trades but identifies the assets, opening and closing prices and trigger conditions and parameters pertinent to the strategy. Additionally the Backtrader and TWS API also has debugging built and can be accessed by setting the appropriate configuration parameters.
 
+![TWS Ports](images/image-08.png "TWS Port")
+
 Disclaimer
 ----------
 The software is provided on the conditions of the simplified BSD license.
