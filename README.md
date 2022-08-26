@@ -910,7 +910,7 @@ Calling tickString(16777217, 33, 'KPQZNUH')
 ```
 Onward To Live Trading
 ----------------------
-Now that you have implemented logging, and have and good understanding of how to debug you strategy in case of programming issues.
+Now that you have implemented logging, and have and good understanding of how to debug your strategy you are ready to go live.
 
 It is suggested that trading starts small, and that as confidence is gained trading sizes/frequency is increased within your prescribed risk appetite. At each stage it is recommended that you review the logs for anomalies that you may not notice from looking at the TWS screens.
 
